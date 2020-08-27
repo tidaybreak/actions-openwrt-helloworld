@@ -81,9 +81,9 @@ jobs:
 
     - name: Generate configuration file
       run: |
-          rm -f ./.config*
-          touch ./.config
-
+          chmod +x $DIY_P2_SH
+          cd openwrt
+          make defconfig
           #
           # ========================固件定制部分========================
           # 
@@ -210,11 +210,9 @@ jobs:
           # 
           # ========================固件定制部分结束========================
           # 
-          chmod +x $DIY_P2_SH
-          cd openwrt
+
           sed -i 's/^[ \t]*//g' ./.config
           ../$DIY_P2_SH
-          make defconfig
 
     #- name: Load custom configuration
     #  run: |
