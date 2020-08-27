@@ -82,8 +82,10 @@ jobs:
     - name: Generate configuration file
       run: |
           chmod +x $DIY_P2_SH
+          [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
           cd openwrt
-          make defconfig
+          ../$DIY_P2_SH
+
           #
           # ========================固件定制部分========================
           # 
@@ -141,14 +143,14 @@ jobs:
           # EOF
 
           # pptp l2tp支持:
-          cat >> .config <<EOF
-          CONFIG_PACKAGE_kmod-fs-nfs=y
-          CONFIG_PACKAGE_kmod-fs-nfs-common=y
-          CONFIG_PACKAGE_kmod-fs-nfs-v3=y
-          CONFIG_PACKAGE_kmod-fs-nfs-v4=y
-          CONFIG_PACKAGE_kmod-fs-ntfs=y
-          CONFIG_PACKAGE_kmod-fs-squashfs=y
-          EOF
+          # cat >> .config <<EOF
+          # CONFIG_PACKAGE_kmod-fs-nfs=y
+          # CONFIG_PACKAGE_kmod-fs-nfs-common=y
+          # CONFIG_PACKAGE_kmod-fs-nfs-v3=y
+          # CONFIG_PACKAGE_kmod-fs-nfs-v4=y
+          # CONFIG_PACKAGE_kmod-fs-ntfs=y
+          # CONFIG_PACKAGE_kmod-fs-squashfs=y
+          # EOF
           
           # 多文件系统支持:
           # cat >> .config <<EOF
@@ -221,8 +223,7 @@ jobs:
           # ========================固件定制部分结束========================
           # 
 
-          sed -i 's/^[ \t]*//g' ./.config
-          ../$DIY_P2_SH
+          #sed -i 's/^[ \t]*//g' ./.config
 
     #- name: Load custom configuration
     #  run: |
